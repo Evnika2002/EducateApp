@@ -1,4 +1,5 @@
 using EducateApp.Models;
+using EducateApp.Models.Validators;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -21,8 +22,17 @@ namespace EducateApp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddDbContext<AppCtx>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            // ƒобавление сервиса валидатора парол€
+            services.AddTransient<IPasswordValidator<User>, CustomPasswordValidator>(
+                serv => new CustomPasswordValidator(8));
+
+            // ƒобавление сервиса валидатора пользовател€
+            services.AddTransient<IUserValidator<User>, CustomUserValidator>();
+
 
             services.AddIdentity<User, IdentityRole>()
                 .AddEntityFrameworkStores<AppCtx>();
