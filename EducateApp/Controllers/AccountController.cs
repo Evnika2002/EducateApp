@@ -10,10 +10,15 @@ namespace EducateApp.Controllers
     {
         private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager)
+        private readonly RoleManager<IdentityRole> _roleManager;
+        public AccountController(
+           UserManager<User> userManager,
+           SignInManager<User> signInManager,
+           RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
         [HttpGet]
         // метод срабатывает при открытии страницы регистрации, никакие значения пока передавать не нужно
@@ -44,6 +49,8 @@ namespace EducateApp.Controllers
                 {
                     // установка куки
                     await _signInManager.SignInAsync(user, false);
+                    // если пользователь был успешно зарегистрирован, то он получает роль registeredUser
+                    await _userManager.AddToRoleAsync(user, "registeredUser");
                     return RedirectToAction("Index", "Home");
                 }
                 else
