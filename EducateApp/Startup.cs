@@ -35,7 +35,8 @@ namespace EducateApp
 
 
             services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<AppCtx>();
+                  .AddEntityFrameworkStores<AppCtx>()
+                  .AddDefaultTokenProviders();    //генерация токенов, которые отсылаються для подтверждения
             services.AddControllersWithViews();
         }
 
