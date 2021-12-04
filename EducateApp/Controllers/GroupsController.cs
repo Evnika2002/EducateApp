@@ -46,7 +46,10 @@ namespace EducateApp.Controllers
             IdentityUser user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
 
             // переменная для хранения выбранного номера по списку по умолчанию
-            short selectedIndex = 1;
+            short selectedIndex = _context.FormsOfStudy
+                .Where(w => w.IdUser == user.Id)
+                .OrderBy(o => o.FormOfEdu)
+                .Select(s=>s.Id).FirstOrDefault();
 
             // создание выпадающего списка Форм обучения, в качестве аргументов:
             // элементы списка, номер элемента списка, его название и номер выбранного элемента
@@ -226,6 +229,7 @@ namespace EducateApp.Controllers
             {
                 try
                 {
+                    group.IdSpecialty = model.IdSpecialty;
                     group.Name = model.Name;
                     group.CountOfStudents = model.CountOfStudents;
                     group.YearOfAdmission = model.YearOfAdmission;
