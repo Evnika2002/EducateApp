@@ -18,5 +18,6 @@ namespace EducateApp.Models
 
         public DbSet<TypeofTotal> TypesOfTotals { get; set; }
         public DbSet<Specialty> Specialties { get; set; }
+        public DbSet<Group> Groups { get; set; }
     }
 }
