@@ -192,6 +192,7 @@ namespace EducateApp.Controllers
             return View(formOfStudy);
         }
 
+
         private bool FormOfStudyExists(short id)
         {
             return _context.FormsOfStudy.Any(e => e.Id == id);
