@@ -181,7 +181,7 @@ namespace EducateApp.Controllers
                 return NotFound();
             }
 
-            return View(typeofTotal);
+            return PartialView(typeofTotal);
         }
 
         private bool TypeofTotalExists(short id)

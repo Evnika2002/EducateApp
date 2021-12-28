@@ -215,7 +215,7 @@ namespace EducateApp.Controllers
                 return NotFound();
             }
 
-            return View(discipline);
+            return PartialView(discipline);
         }
 
         public FileResult DownloadPattern()
