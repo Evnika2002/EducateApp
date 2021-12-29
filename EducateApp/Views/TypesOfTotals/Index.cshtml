@@ -11,7 +11,7 @@
     </ol>
 </nav>
 
-<h2>"Виды промежуточной аттестации</h2>
+<h2>Виды промежуточной аттестации</h2>
 
 <div id="modDialog" class="modal fade">
     <div id="dialogContent" class="modal-dialog"></div>
@@ -32,9 +32,6 @@
                         @Html.DisplayNameFor(model => model.CertificateName)
                     </a>
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.User)
-                </th>
                 <th></th>
             </tr>
         </thead>
@@ -44,9 +41,6 @@
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.CertificateName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.User.Id)
                     </td>
                     <td>
                         <a class="btn text-dark details" asp-action="Details" asp-route-id="@item.Id" title="Посмотреть подробнее">
