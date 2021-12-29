@@ -24,20 +24,25 @@ namespace EducateApp.Controllers
         }
 
         // GET: TypesOfTotals
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(TypeofTotalSortState sortOrder = TypeofTotalSortState.CertificateNameAsc)
         {
             // находим информацию о пользователе, который вошел в систему по его имени
             IdentityUser user = await _userManager.FindByNameAsync(HttpContext.User.Identity.Name);
             // через контекст данных получаем доступ к таблице базы данных TypesofTotals
 
-            var appCtx = _context.TypesOfTotals
+            var typesOfTotal = _context.TypesOfTotals
                   .Include(f => f.User)                                           // и связываем с таблицей пользователи через класс User
-                  .Where(f => f.IdUser == user.Id)                                // устанавливается условие с выбором записей форм обучения текущего пользователя по его Id
-                  .OrderBy(f => f.CertificateName);          // сортируем все записи по Проф. модуль
-            
-            
+                  .Where(f => f.IdUser == user.Id);                                // устанавливается условие с выбором записей форм обучения текущего пользователя по его Id
+                 ViewData["CertificateNameSort"] = sortOrder == TypeofTotalSortState.CertificateNameAsc ? TypeofTotalSortState.CertificateNameDesc : TypeofTotalSortState.CertificateNameAsc;
+
+            typesOfTotal = sortOrder switch
+            {
+                TypeofTotalSortState.CertificateNameDesc => typesOfTotal.OrderByDescending(s => s.CertificateName),
+                _ => typesOfTotal.OrderBy(s => s.CertificateName),
+            };
+
             // возвращаем в представление полученный список записей
-            return View(await appCtx.ToListAsync());
+            return View(await typesOfTotal.AsNoTracking().ToListAsync());
         }
 
         // GET: TypesOfTotals/Details/5
